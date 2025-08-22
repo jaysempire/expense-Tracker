@@ -1,6 +1,7 @@
 <?php
 
 include_once( 'Db.php' );
+include_once( 'File.php' );
 
 class Transaction{
 
@@ -8,6 +9,7 @@ class Transaction{
     use Db {
         Db::__construct as private __appConst;
     }
+    use File;
 
     protected $table = '';
 
@@ -90,7 +92,7 @@ class Transaction{
                 AND YEAR(t_date) = YEAR(CURRENT_DATE())";
         
         $res = $this->fetchSingle($sql, $dt);
-        return $res ?? 0;
+        return $res['SUM(amount)'] ?? 0;
     }
 
     function lastMonthIncome(array $dt)
@@ -103,7 +105,7 @@ class Transaction{
                 AND YEAR(t_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)";
         
         $res = $this->fetchSingle($sql, $dt);
-        return $res ?? 0;
+        return $res['SUM(amount)'] ?? 0;
     }
 
     function currentMonthExpense(array $dt)
@@ -116,7 +118,7 @@ class Transaction{
                 AND YEAR(t_date) = YEAR(CURRENT_DATE())";
         
         $res = $this->fetchSingle($sql, $dt);
-        return $res ?? 0;
+        return $res['SUM(amount)'] ?? 0;
     }
 
     function lastMonthExpense(array $dt)
@@ -129,7 +131,7 @@ class Transaction{
                 AND YEAR(t_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)";
         
         $res = $this->fetchSingle($sql, $dt);
-        return $res ?? 0;
+        return $res['SUM(amount)'] ?? 0;
     }
 
     function addNew( array $dt ) 
