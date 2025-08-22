@@ -6,6 +6,7 @@
    #   Date modified: 06/08/2025   
 
 	//include_once( 'App.php' );
+    include_once('models/User.php');
 
 	class WebApp
 	{
@@ -164,6 +165,18 @@
             $user_name = $_SESSION['user_name'];
 
             return $user_name;
+        }
+
+        public function getImg() {
+
+            $userModel = new User();
+            $user = $userModel->getById([$_SESSION['user_id']]);
+
+            if (!empty($user['user_img'])) {
+                return "uploads/profile_img/" . htmlspecialchars($user['user_img']);
+            }
+
+            return "assets/img/default.jpg"; // fallback image
         }
 
 		function playerDetailsCard($player, $upload_url){
@@ -345,6 +358,8 @@
                         <span class="'.$color.' fw-bold">'.$amount.'</span>
                     </li>';
         }
+
+        
 
 	}
 ?>

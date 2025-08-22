@@ -25,7 +25,7 @@
 
 	//url
    $server_name = ENVIRONMENT == 'Test' ? 'http://' : 'https://';
-   $server_name .= 'localhost/2025/mini-php-mvc';//$_SERVER['SERVER_NAME'];
+   $server_name .= 'localhost/2025/expense_tracker';//$_SERVER['SERVER_NAME'];
    $uri = $_SERVER['REQUEST_URI'];
    $app_url = ( strlen( $uri ) > 1 ) ? "$server_name$uri" : "$server_name";
 

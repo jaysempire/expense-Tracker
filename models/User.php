@@ -7,6 +7,7 @@
 
 	include_once( 'Db.php' );
 	include_once( 'Encryption.php' );
+	include_once( 'File.php' );
 
 	class User
 	{
@@ -14,6 +15,8 @@
 		use Db {
       		Db::__construct as private __appConst;
     	}
+
+		use File;
 
 		use Encryption;
 
@@ -52,6 +55,20 @@
 		function getLoggedAdmin()
 		{
 			return $_COOKIE[ APP_SESS ] ?? 0;
+		}
+
+		function getById( array $dt ) 
+		{
+			$sql = "SELECT * FROM $this->table WHERE id = ?";
+			$res = $this->fetchSingle( $sql, $dt );
+
+			return $res ?? [];
+		}
+
+		function updateImg(array $dt) {
+			$sql = "UPDATE $this->table SET `user_img`= ? WHERE `user_no`= ? ";
+			$res = $this->runQuery2($sql, $dt);
+			return $res ?? false;
 		}
 
 	}

@@ -35,6 +35,7 @@
 			{  
 				$_SESSION['user_id'] = $user_dt['id'];
 				$_SESSION['user_name'] = $user_dt['user_name'];
+				$_SESSION['user_img'] = $user_dt['user_img'];
 				
 				$id = $_SESSION['user_id'];
 

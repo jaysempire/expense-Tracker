@@ -1,9 +1,14 @@
 <?php
     include_once('admin_auth.php');
 	include_once('models/Transaction.php');
+	include_once('models/User.php');
 
     $transac = new Transaction;
+    $user = new User;
+    $user_id = $_SESSION['user_id'];
     $transac_arr = [];
+    $user_arr = $user->getById([$user_id]);
+
 
     if (isset($_POST['submit_btn'])) {
         $title = $_POST['transac_title'];
@@ -22,6 +27,46 @@
         } else {
             $msg = $web_app->showAlertMsg('success', 'Transaction Successfully Added!');
         }
+    } else {
+
+        if (isset($_POST['img_btn']) && isset($_FILES['user_image'])) {
+
+            if (!$user_arr) {
+                $_SESSION['msg'] = $web_app->showAlertMsg('danger', 'User not found!');
+                header('Location: ./dashboard');
+                exit();
+            }
+
+            $user_no = $user_arr['user_no'];
+		    $file_name = $user_arr['user_img'] ?? '';
+            $file_base_name = $user_no;
+
+            if (!empty($file_name)) {
+
+                $existing_img_path = "$upload_dir/profile_img/" . $file_name;
+
+                if (file_exists($existing_img_path)) {
+                    unlink($existing_img_path);
+                }
+
+            }
+
+			$file_upload = $user->fileUpload("$upload_dir/profile_img", $_FILES['user_image'], $file_base_name);
+
+            if ($file_upload['status']) {
+				$file_name = $file_upload['file_name'];
+
+				$dt = [$file_name, $user_no];
+				$user->updateImg($dt);
+
+				$_SESSION['msg'] = $web_app->showAlertMsg('success', 'User Image Successfully Updated!');
+			} else {
+				$_SESSION['msg'] .= $web_app->showAlertMsg('error', $file_upload['msg']);
+			}
+
+			header('Location: ./dashboard');
+			exit();
+        }
     }
 
     $income = $transac->incomeSum([$user_id]);
@@ -33,8 +78,8 @@
     $currentincome  = $transac->currentMonthIncome([$user_id]) ?? 0;
     $currentexpense  = $transac->currentMonthExpense([$user_id]) ?? 0;
 
-    $incomechange = $lastincome['SUM(amount)'] > 0 ? (($currentincome['SUM(amount)'] - $lastincome['SUM(amount)']) / $lastincome['SUM(amount)']) * 100 : 0;
-    $expensechange = $lastexpense['SUM(amount)'] > 0 ? (($currentexpense['SUM(amount)'] - $lastexpense['SUM(amount)']) / $lastexpense['SUM(amount)']) * 100 : 0;
+    $incomechange = $lastincome > 0 ? (($currentincome - $lastincome) / $lastincome) * 100 : 0;
+    $expensechange = $lastexpense > 0 ? (($currentexpense - $lastexpense) / $lastexpense) * 100 : 0;
 
     if ($incomechange < 0) {
         $incometext = abs(round($incomechange)) . '% decrease from last month' ;
