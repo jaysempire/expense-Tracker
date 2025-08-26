@@ -1,9 +1,10 @@
 <?php 
    #   Author of the script
-   #   Name: Ezra Adamu
-   #   Email: ezra00100@gmail.com
-   #   Date created: 17/08/2022 
-   #   Date modified: 02/07/2024  
+	#   Name: Jeremiah Achanya
+	#   Email: jeremiahachanya@gmail.com
+	#   Date created: 26/8/2024 
+	#   Date modified: 26/8/2024 
+    
    ob_start();
    
    if ( session_status() == PHP_SESSION_NONE )

@@ -1,9 +1,9 @@
 <?php
 	#   Author of the script
-	#   Name: Ezra Adamu
-	#   Email: ezra00100@gmail.com
-	#   Date created: 10/10/2024 
-	#   Date modified: 10/10/2024  
+	#   Name: Jeremiah Achanya
+	#   Email: jeremiahachanya@gmail.com
+	#   Date created: 26/8/2024 
+	#   Date modified: 26/8/2024 
 
 	include_once( 'Db.php' );
 	include_once( 'Encryption.php' );
@@ -67,6 +67,34 @@
 
 		function updateImg(array $dt) {
 			$sql = "UPDATE $this->table SET `user_img`= ? WHERE `user_no`= ? ";
+			$res = $this->runQuery2($sql, $dt);
+			return $res ?? false;
+		}
+
+		function getCount( array $dt ) 
+		{
+			$sql = "SELECT COUNT(id) AS total FROM $this->table";
+			$res = $this->fetchSingle( $sql, $dt );
+
+			return $res['total'] ?? 0;
+		}
+
+		function getRefNo(array $dt) {
+			$sql = "SELECT id FROM $this->table WHERE user_no = ?";
+			$res = $this->runQuery2($sql, $dt);
+			return $res ?? false;
+		}
+
+		function addnew( array $dt ) 
+		{
+			$sql = "INSERT INTO $this->table (`user_no`, `user_name`, `email`, `pword` ) VALUES (?, ?, ?, ?)";
+			$res = $this->runQuery( $sql, $dt );
+
+			return $res ?? false;
+		}
+
+		function getEmail(array $dt) {
+			$sql = "SELECT email FROM $this->table WHERE email = ? ";
 			$res = $this->runQuery2($sql, $dt);
 			return $res ?? false;
 		}

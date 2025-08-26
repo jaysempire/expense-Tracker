@@ -1,9 +1,9 @@
 <?php
-   #   Author of the script
-   #   Name: Jeremiah Achanya
-   #   Email: jeremiahachanya@gmail.com
-   #   Date created: 31/07/2025
-   #   Date modified: 06/08/2025   
+    #   Author of the script
+	#   Name: Jeremiah Achanya
+	#   Email: jeremiahachanya@gmail.com
+	#   Date created: 26/8/2024 
+	#   Date modified: 26/8/2024   
 
 	//include_once( 'App.php' );
     include_once('models/User.php');

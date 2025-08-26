@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="<?= $server_name ?>/assets/css/style.css" rel="stylesheet">
+  <link href="<?= $server_name ?>/assets/css/custom.css" rel="stylesheet">
 	
 </head>
 

@@ -89,8 +89,9 @@
       <div class="card h-100 shadow-sm border-0 rounded-3">
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
           <h5 class="mb-0 fw-semibold text-dark">Recent Transactions</h5>
-          <a href="transaction" class="btn btn-sm text-white px-3 rounded-pill opacity-75" style="background-color: #003366;">
+          <a href="transaction" class="btn btn-sm text-white px-3 rounded-pill d-flex align-items-center gap-2 opacity-75 hover-bg-dark hover-opacity-100 transition-all duration-300 hover-scale-105" style="background-color: #003366;">
             See More
+            <i class="bi bi-arrow-right"></i>
           </a>
         </div>
         <div class="card-body" style="max-height: 350px; overflow-y: auto;">
@@ -99,14 +100,25 @@
               $output = '';
               foreach ($transac_arr as $transac) {
                 $output .= $web_app->transacDetailCard($transac);
-              }
-              echo $output;
-            ?>
+              }?>
+              <?php if (empty($output)) { ?>
+                <div class="d-flex flex-column justify-content-center align-items-center py-5">
+                  <div class="mb-3">
+                    <i class="bi bi-credit-card text-secondary" style="font-size: 2rem;"></i>
+                  </div>
+                  <p class="text-body-secondary fw-semibold mb-1">No Recent Transactions</p>
+                  <small class="text-muted">Your latest activity will appear here</small>
+                  <button href="" class="btn btn-sm mt-3 text-white px-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#addTransactionModal" style="background-color: #003366;">
+                    Add Transaction
+                  </button>
+                </div>
+              <?php } else { 
+                echo $output; 
+              } ?>
           </ul>
         </div>
       </div>
     </div>
-
     <!-- Monthly Transaction Chart Card -->
     <div class="col-md-6">
       <div class="card h-100 shadow-sm border-0 rounded-3">

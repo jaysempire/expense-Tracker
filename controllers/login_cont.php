@@ -1,9 +1,9 @@
 <?php 
 	#   Author of the script
-	#   Name: Ezra Adamu
-	#   Email: ezra00100@gmail.com
-	#   Date created: 26/12/2024 
-	#   Date modified: 28/12/2024  
+	#   Name: Jeremiah Achanya
+	#   Email: jeremiahachanya@gmail.com
+	#   Date created: 26/8/2024 
+	#   Date modified: 26/8/2024  
 	include_once('models/User.php');
 
   	/*  $admin = new admin();
@@ -15,7 +15,7 @@
 	//Creating instances
 	$user = new User(); 
 
-	if ( isset( $_POST[ 'btn_submit' ] ) ) 
+	if ( isset( $_POST[ 'btn_login' ] ) ) 
 	{
 		// Getting user values
 		$uname = $_POST[ 'username' ];
@@ -59,6 +59,58 @@
 			$msg = $web_app->showAlertMsg( 'info', 'Please, Enter Username And Password.' ); 	
 		}
 	}
+	elseif (isset($_POST[ 'btn_register' ] ) ) 
+	{
+		$username = $_POST['username'];
+		$email = $_POST['email'];
+		$password = $_POST['password'];
+		$conf_password = $_POST['confirm_password'];
+
+		if ($password == $conf_password) {
+
+			if ($username  && $email && $password) {
+				if ($user->getEmail([$email])) {
+					$msg = $web_app->showAlertMsg( 'danger', 'Email Already Exist!' );
+				}
+				else{
+
+					$count = $user->getCount([]);
+	
+					for ($i=0; $i < 5; $i++) { 
+						$next_id = (int)$count + 1;
+						$user_no = 'user-' . date('Y') .'-'. str_pad($next_id, max(4, strlen($next_id)), '0', STR_PAD_LEFT); // function
+	
+						if (!$user->getRefNo([$user_no])) {
+							$passed = true;
+							break;
+						}
+					}
+					
+					if ($passed) {
+	
+						$dt = [$user_no, $username, $email, $user->encPword($password)];
+	
+						if ($user->addnew($dt)) {
+							$msg = $web_app->showAlertMsg( 'success', 'User Successfully Added!' );
+						}
+						else {
+							$msg = $web_app->showAlertMsg( 'danger', 'Please Try Again!' );
+						}
+
+					}
+				}
+			}
+
+			else {
+				$msg = $web_app->showAlertMsg( 'danger', 'Fill in Required Fields!' );
+			}
+		}
+		else {
+			$msg = $web_app->showAlertMsg( 'danger', 'Use Matching Passwords!' ); 
+		}
+
+	} 
+
 
 	//home interface
 	include_once( 'views/login.php' );
