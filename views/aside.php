@@ -60,7 +60,7 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="text-center mb-3">
-                        <img src="" alt="Current Image" 
+                        <img src="<?= $web_app->getImg(); ?>" alt="Current Image" 
                             class="img-fluid rounded mb-2" style="max-height: 200px;">
                     </div>
                     
